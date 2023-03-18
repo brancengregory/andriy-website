@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Router } from '../router';
+import { Router } from '@vaadin/router';
+import { products as mock_products } from '../mock/Products';
 
 @customElement('products-page')
 export class ProductsPage extends LitElement {
@@ -23,19 +24,8 @@ export class ProductsPage extends LitElement {
     }
   `;
 
-  products = [
-    {
-      id: 1,
-      name: 'Wedding Cake Topper',
-      image: '/assets/wedding-cake-topper.jpg',
-    },
-    {
-      id: 2,
-      name: 'Christmas Ornament',
-      image: '/assets/christmas-ornament.jpg',
-    },
-    // Add more products here...
-  ];
+  products = mock_products;
+  router = new Router(this.shadowRoot?.querySelector('main'));
 
   render() {
     return html`
@@ -45,7 +35,7 @@ export class ProductsPage extends LitElement {
           ${this.products.map(
             (product) => html`
               <li>
-                <a href="/products/${product.id}" @click=${this.handleNavigation}>
+                <a href="${Router.urlForPath(`/products/${product.id}`)}">
                   <img src="${product.image}" alt="${product.name}" />
                   <p>${product.name}</p>
                 </a>
@@ -55,11 +45,5 @@ export class ProductsPage extends LitElement {
         </ul>
       </div>
     `;
-  }
-
-  handleNavigation(event: MouseEvent, id: number) {
-    event.preventDefault();
-    const router = Router.getInstance();
-    router.navigateTo(`/products/${id}`);
   }
 }

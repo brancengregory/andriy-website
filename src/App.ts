@@ -1,18 +1,9 @@
+// Import external dependencies
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Router, Route } from './router';
+import { router } from './router';
 
-
-// Importing page components
-import './pages/Home';
-import './pages/Products';
-import './pages/ProductDetails';
-import './pages/Cart';
-
-// Importing common components
-import './components/common/Header';
-import './components/common/Footer';
-
+// Define the element
 @customElement('app-root')
 export class App extends LitElement {
   static styles = css`
@@ -21,21 +12,13 @@ export class App extends LitElement {
 
   constructor() {
     super();
-    const router = Router.getInstance(); // Get the instance of the Router
-    router.setRoutes([
-      new Route('Home', '/', 'home-page'),
-      new Route('Products', '/products', 'products-page'),
-      new Route('ProductDetails', '/products/:id', 'product-details-page'),
-      new Route('Cart', '/cart', 'cart-page'),
-    ]);
+    router.setOutlet(this.shadowRoot!.querySelector('main') as HTMLElement);
   }
 
   render() {
     return html`
       <app-header></app-header>
-      <main>
-        <home-page></home-page>
-      </main>
+      <main></main>
       <app-footer></app-footer>
     `;
   }

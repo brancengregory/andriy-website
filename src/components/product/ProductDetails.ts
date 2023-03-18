@@ -1,10 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import '../router';
+import { Router } from '../../router';
+import { Product } from '../../types';
+import { products } from '../../mock/products';
 
-@customElement('product-details-page')
-export class ProductDetailsPage extends LitElement {
+@customElement('product-details')
+export class ProductDetails extends LitElement {
   static styles = css`
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
@@ -17,51 +24,35 @@ export class ProductDetailsPage extends LitElement {
   `;
 
   @property({ type: Number })
-  product_id: number | null = null;
+  productId: number | null = null;
 
-  productData = new Map<number, { product_id: number; name: string; image: string; description: string }>([
-    [
-      1,
-      {
-        product_id: 1,
-        name: 'Wedding Cake Topper',
-        image: '/assets/wedding-cake-topper.jpg',
-        description: 'A beautiful wedding cake topper for your special day.',
-      },
-    ],
-    [
-      2,
-      {
-        product_id: 2,
-        name: 'Christmas Ornament',
-        image: '/assets/christmas-ornament.jpg',
-        description: 'A festive ornament to brighten up your Christmas tree.',
-      },
-    ],
-  ]);  
+  productData: Product[] = products;
 
   render() {
-    const defaultProduct = {
-      product_id: 0,
-      name: '',
-      image: '',
-      description: '',
-    };
+    const product = this.productData.find(p => p.id === this.productId);
 
-    const product = this.productData.get(this.product_id || 0) || defaultProduct;
+    if (!product) {
+      return html`<div>Product not found.</div>`;
+    }
 
     return html`
-      <div>
+      <div class="container">
         <h1>${product.name}</h1>
         <img src="${product.image}" alt="${product.name}" />
         <p>${product.description}</p>
-        <button @click=${this.addToCart}>Add to Cart</button>
+        <button @click="${this.addToCart}">Add to Cart</button>
       </div>
     `;
   }
 
   addToCart() {
     // Add the selected product to the cart and show a message
-    console.log(`Product with ID: ${this.id} added to cart`);
+    console.log(`Product with ID: ${this.productId} added to cart`);
+  }
+
+  updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('productId')) {
+      Router.getInstance().navigateTo(`/product/${this.productId}`);
+    }
   }
 }

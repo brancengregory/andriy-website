@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Router } from '../router';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -19,14 +18,8 @@ export class HomePage extends LitElement {
           We offer a wide range of laser engraved and cut products, including wedding cake toppers, Christmas ornaments,
           and more. Browse our collection and find the perfect gift or decoration for your special occasion.
         </p>
-        <a href="/products" @click=${this.handleNavigation}>Shop Now</a>
+        <a href="/products">Shop Now</a>
       </div>
     `;
-  }
-
-  handleNavigation(event: MouseEvent) {
-    event.preventDefault();
-    const router = Router.getInstance();
-    router.navigateTo('/products');
   }
 }
