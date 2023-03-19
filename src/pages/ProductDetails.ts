@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
-import { Product } from '../types';
+import { Product } from '../types/Product';
 import { products } from '../mock/Products';
 import { router } from '../router';
 
