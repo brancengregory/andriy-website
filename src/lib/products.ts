@@ -6,7 +6,16 @@ import html from 'remark-html';
 
 const productsDirectory = path.join(process.cwd(), 'products');
 
-export function getSortedProductsData() {
+interface Product {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  contentHtml?: string;
+}
+
+export function getSortedProductsData(): Product[] {
   // Get file names under /posts
   const fileNames = fs.readdirSync(productsDirectory);
   const allProductsData = fileNames.map((fileName) => {
@@ -24,8 +33,8 @@ export function getSortedProductsData() {
     // Combine the data with the id
     return {
       id,
-      ...matterResult.data,
-    };
+      ...(matterResult.data as Omit<Product, 'id'>),
+    } as Product;
   });
   // Sort posts by date
   return allProductsData.sort((a, b) => {
@@ -50,7 +59,7 @@ export function getAllProductIds() {
   });
 }
 
-export async function getProductData(id) {
+export async function getProductData(id: string): Promise<Product> {
   const fullPath = path.join(productsDirectory, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
@@ -67,6 +76,6 @@ export async function getProductData(id) {
   return {
     id,
     contentHtml,
-    ...matterResult.data,
-  };
+    ...(matterResult.data as Omit<Product, 'id' | 'contentHtml'>),
+  } as Product;
 }
