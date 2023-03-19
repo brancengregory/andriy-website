@@ -6,50 +6,31 @@ import { Product } from '../../types';
 export class ProductCard extends LitElement {
   static styles = css`
     .card {
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      border: 1px solid #ddd;
       padding: 1rem;
-    }
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     img {
       width: 100%;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    button {
-      display: block;
-      margin: 0 auto;
+      max-width: 300px;
+      margin-bottom: 1rem;
     }
   `;
 
   @property({ type: Object })
-  product: Product = {
-    id: 0,
-    name: '',
-    image: '',
-    price: 0,
-    description: '',
-  };
+  product!: Product;
 
   render() {
     return html`
       <div class="card">
-        <h3>${this.product.name}</h3>
         <img src="${this.product.image}" alt="${this.product.name}" />
+        <h2>${this.product.name}</h2>
         <p>${this.product.description}</p>
-        <button @click=${this.addToCart}>Add to Cart</button>
+        <p>$${this.product.price}</p>
       </div>
     `;
-  }
-
-  addToCart() {
-    // Add the selected product to the cart and show a message
-    console.log(`Product with ID: ${this.product.id} added to cart`);
   }
 }

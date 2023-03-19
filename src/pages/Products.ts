@@ -1,8 +1,15 @@
+// Import lit libraries
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { Router } from '@vaadin/router';
+
+// Import mock data
+// Todo: Replace with real data
 import { products as mock_products } from '../mock/Products';
 
+// Import the ProductCard component
+import '../components/product/ProductCard';
+
+// Define the ProductsPage component
 @customElement('products-page')
 export class ProductsPage extends LitElement {
   static styles = css`
@@ -25,7 +32,6 @@ export class ProductsPage extends LitElement {
   `;
 
   products = mock_products;
-  router = new Router(this.shadowRoot?.querySelector('main'));
 
   render() {
     return html`
@@ -33,14 +39,13 @@ export class ProductsPage extends LitElement {
         <h1>Our Products</h1>
         <ul>
           ${this.products.map(
-            (product) => html`
+            product => html`
               <li>
-                <a href="${Router.urlForPath(`/products/${product.id}`)}">
-                  <img src="${product.image}" alt="${product.name}" />
-                  <p>${product.name}</p>
+                <a href="/products/${product.id}">
+                  <product-card .product="${product}"></product-card>
                 </a>
               </li>
-            `,
+            `
           )}
         </ul>
       </div>

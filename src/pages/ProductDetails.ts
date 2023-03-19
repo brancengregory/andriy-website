@@ -1,5 +1,8 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, query } from 'lit/decorators.js';
+import { Product } from '../types';
+import { products } from '../mock/Products';
+import { router } from '../router';
 
 @customElement('product-details-page')
 export class ProductDetailsPage extends LitElement {
@@ -9,46 +12,32 @@ export class ProductDetailsPage extends LitElement {
       margin-bottom: 1rem;
     }
     img {
-      width: 300px;
-      height: 300px;
-      margin-bottom: 1rem;
+      max-width: 100%;
     }
   `;
 
-  @property({ type: Number })
-  productId: number | null = null;
+  @query('#product')
+  productEl!: HTMLDivElement;
 
-  // This is just an example, you should fetch the product data from an API or backend
-  productData = {
-    1: {
-      product_id: 1,
-      name: 'Wedding Cake Topper',
-      image: '/assets/wedding-cake-topper.jpg',
-      description: 'A beautiful wedding cake topper for your special day.',
-    },
-    2: {
-      product_id: 2,
-      name: 'Christmas Ornament',
-      image: '/assets/christmas-ornament.jpg',
-      description: 'A festive ornament to brighten up your Christmas tree.',
-    },
-  };
+  product: Product | undefined;
 
-  render() {
-    const product = this.productData[this.productId || 0] || {};
-
-    return html`
-      <div>
-        <h1>${product.name}</h1>
-        <img src="${product.image}" alt="${product.name}" />
-        <p>${product.description}</p>
-        <button @click=${this.addToCart}>Add to Cart</button>
-      </div>
-    `;
+  connectedCallback() {
+    super.connectedCallback();
+    const { id } = router.location.params as { id: string };
+    this.product = products.find(product => product.id === parseInt(id));
   }
 
-  addToCart() {
-    // Add the selected product to the cart and show a message
-    console.log(`Product with ID: ${this.productId} added to cart`);
+  render() {
+    if (!this.product) {
+      return html`<p>Loading...</p>`;
+    }
+    return html`
+      <div id="product">
+        <h1>${this.product.name}</h1>
+        <img src="${this.product.image}" alt="${this.product.name}" />
+        <p>${this.product.description}</p>
+        <p>Price: $${this.product.price}</p>
+      </div>
+    `;
   }
 }

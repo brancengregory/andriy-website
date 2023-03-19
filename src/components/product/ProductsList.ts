@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Product } from '../../types';
 import './ProductCard';
-import { products } from '../../mock/products';
 
 @customElement('products-list')
 export class ProductsList extends LitElement {
@@ -10,7 +9,6 @@ export class ProductsList extends LitElement {
     ul {
       list-style: none;
       padding: 0;
-      margin: 0;
       display: grid;
       gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -18,15 +16,15 @@ export class ProductsList extends LitElement {
   `;
 
   @property({ type: Array })
-  products: Product[] = products;
+  products: Product[] = [];
 
   render() {
     return html`
       <ul>
         ${this.products.map(
-          (product) => html`
+          product => html`
             <li>
-              <product-card .product=${product}></product-card>
+              <product-card .product="${product}"></product-card>
             </li>
           `
         )}

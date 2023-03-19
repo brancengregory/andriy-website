@@ -2,17 +2,30 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { router } from './router';
+import './pages';
+import './components/common/Header';
+import './components/common/Footer';
 
 // Define the element
 @customElement('app-root')
 export class App extends LitElement {
   static styles = css`
-    /* Add your global styles here */
+    :host {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
   `;
 
-  constructor() {
-    super();
-    router.setOutlet(this.shadowRoot!.querySelector('main') as HTMLElement);
+  firstUpdated(): void {
+    const main = this.shadowRoot?.querySelector('main');
+    if (main) {
+      router.setOutlet(main);
+    }
   }
 
   render() {

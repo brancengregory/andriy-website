@@ -17,3 +17,7 @@ export const products: Product[] = [
   },
   // Add more products as needed
 ];
+
+export const getProductById = (id: string): Product | undefined => {
+  return products.find((product) => product.id === parseInt(id));
+}
