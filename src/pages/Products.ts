@@ -41,9 +41,7 @@ export class ProductsPage extends LitElement {
           ${this.products.map(
             product => html`
               <li>
-                <a href="/products/${product.id}">
-                  <product-card .product="${product}"></product-card>
-                </a>
+                <product-card .product="${product}"></product-card>
               </li>
             `
           )}

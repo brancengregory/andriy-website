@@ -31,15 +31,18 @@ export class Header extends LitElement {
     }
   `;
 
-  render() {
+  render() {  
     return html`
       <header>
-        <h1>My Online Store</h1>
+        <h1>
+          <a href="/">My Online Store</a>
+        </h1>
         <nav>
           <a href="/">Home</a>
           <a href="/products">Products</a>
+          <a href="/cart">Cart</a>
         </nav>
       </header>
     `;
-  }
+  }  
 }
