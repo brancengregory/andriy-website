@@ -29,7 +29,7 @@ export default function Home({ allProductsData }: HomeProps) {
         <title>Pro Toppers</title>
       </Head>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Top Products</h2>
+        <h2 className={`${utilStyles.headingLg} "text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"`}>Top Products</h2>
         <ul className={utilStyles.list}>
           {allProductsData.map(({ id, price, title }) => (
             <li className={utilStyles.listItem} key={id}>
