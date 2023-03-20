@@ -1,5 +1,5 @@
 ---
-title: ornament-1
+title: Ornament 1
 price: 12.99
 ---
 

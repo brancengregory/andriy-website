@@ -1,17 +1,20 @@
 import Layout from '@/components/layout';
 import Head from 'next/head';
 import utilStyles from '../../styles/utils.module.scss';
+import { GetStaticPropsContext } from 'next';
+import { Product as ProductType } from '@/types';
 
 import { getAllProductIds, getProductData } from '../../lib/products';
 
-export async function getStaticProps({ params }) {
-  const productData = await getProductData(params.id);
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const productData = await getProductData(context.params?.id as string);
   return {
     props: {
       productData,
     },
   };
 }
+
 export async function getStaticPaths() {
   const paths = getAllProductIds();
   return {
@@ -20,7 +23,11 @@ export async function getStaticPaths() {
   };
 }
 
-export default function Product({ productData }) {
+interface ProductProps {
+  productData: ProductType;
+}
+
+export default function Product({ productData }: ProductProps) {
   return (
     <Layout home={false}>
       <Head>
@@ -31,7 +38,9 @@ export default function Product({ productData }) {
         <div className={utilStyles.brightText}>
           <p>{productData.price}</p>
         </div>
-        <div dangerouslySetInnerHTML={{ __html: productData.contentHtml }} />
+        {productData.contentHtml && (
+          <div dangerouslySetInnerHTML={{ __html: productData.contentHtml }} />
+        )}
       </article>
     </Layout>
   );

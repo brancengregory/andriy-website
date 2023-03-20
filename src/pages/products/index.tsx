@@ -1,15 +1,19 @@
 import Layout from '@/components/layout';
 import Link from 'next/link';
 
-export default function AllProducts() {
+export default function Products() {
   return (
-    <Layout home={true}>
-      <h1>All Products</h1>
+    <Layout home={false}>
+      <h1>Products</h1>
       <h2>
-        <Link href="/">Back to home</Link>
-      </h2>
-      <h2>
-        <Link href="/products/first-product">First Product</Link>
+        <ul>
+          <li>
+            <Link href="/products/cake-topper-1">Product 1</Link>
+          </li>
+          <li>
+            <Link href="/products/ornament-1">Product 2</Link>
+          </li>
+        </ul>
       </h2>
     </Layout>
   );

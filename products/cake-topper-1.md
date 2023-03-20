@@ -1,5 +1,5 @@
 ---
-title: cake-topper-1
+title: Cake Topper 1
 price: 9.99
 ---
 

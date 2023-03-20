@@ -3,17 +3,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import { Product } from '@/types';
 
 const productsDirectory = path.join(process.cwd(), 'products');
-
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-  image: string;
-  contentHtml?: string;
-}
 
 export function getSortedProductsData(): Product[] {
   // Get file names under /posts
@@ -46,7 +38,7 @@ export function getSortedProductsData(): Product[] {
   });
 }
 
-export function getAllProductIds() {
+export function getAllProductIds(): { params: { id: string } }[] {
   const fileNames = fs.readdirSync(productsDirectory);
 
   return fileNames.map((fileName) => {
