@@ -1,6 +1,5 @@
 import Layout from '@/components/layout';
 import Head from 'next/head';
-import utilStyles from '../../styles/utils.module.scss';
 import { GetStaticPropsContext } from 'next';
 import { Product as ProductType } from '@/types';
 
@@ -34,8 +33,8 @@ export default function Product({ productData }: ProductProps) {
         <title>{productData.title}</title>
       </Head>
       <article>
-        <h1 className={utilStyles.headingXl}>{productData.title}</h1>
-        <div className={utilStyles.brightText}>
+        <h1>{productData.title}</h1>
+        <div>
           <p>{productData.price}</p>
         </div>
         {productData.contentHtml && (
