@@ -26,9 +26,9 @@ export default function Home({ allProductsData }: HomeProps) {
       <Head>
         <title>Pro Toppers</title>
       </Head>
-      <section>
-        <h2 className='text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14'>Top Products</h2>
-        <ul>
+      <section className='mt-10'>
+        <h2 className='text-2xl text-center'>Top Products</h2>
+        <ul className='text-center sm:text-left'>
           {allProductsData.map(({ id, price, title }) => (
             <li key={id}>
               <Link href={`/products/${id}`}>{title}</Link>

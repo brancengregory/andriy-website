@@ -32,13 +32,16 @@ export default function Product({ productData }: ProductProps) {
       <Head>
         <title>{productData.title}</title>
       </Head>
-      <article>
-        <h1>{productData.title}</h1>
-        <div>
-          <p>{productData.price}</p>
+      <article className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="text-3xl font-bold mb-4">{productData.title}</h1>
+        <div className="mb-4">
+          <p className="text-lg font-semibold">{productData.price}</p>
         </div>
         {productData.contentHtml && (
-          <div dangerouslySetInnerHTML={{ __html: productData.contentHtml }} />
+          <div
+            className="prose"
+            dangerouslySetInnerHTML={{ __html: productData.contentHtml }}
+          />
         )}
       </article>
     </Layout>

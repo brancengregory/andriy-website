@@ -12,7 +12,7 @@ interface LayoutProps {
 
 export default function Layout({ children, home }: LayoutProps) {
   return (
-    <div className=''>
+    <div className="bg-white">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -20,45 +20,49 @@ export default function Layout({ children, home }: LayoutProps) {
           content="Come buy the best quality cake toppers and ornaments at the best prices"
         />
       </Head>
-      <header className=''>
+      <header className="bg-gradient-to-r from-blue-500 to-purple-500 p-4">
         {home ? (
-          <div className='flex'>
+          <div className="flex items-center justify-center">
             <Image
               priority
               src="/images/profile.jpg"
-              className='flex-auto m-0'
+              className="rounded-full"
               height={144}
               width={144}
               alt=""
             />
-            <h1 className=''>{name}</h1>
+            <h1 className="text-3xl font-bold text-white ml-4">{name}</h1>
           </div>
         ) : (
-          <>
+          <div className='flex items-center justify-center'>
             <Link href="/">
               <Image
                 priority
                 src="/images/profile.jpg"
-                className=''
+                className="rounded-full"
                 height={108}
                 width={108}
                 alt=""
               />
             </Link>
-            <h2 className=''>
-              <Link href="/" className=''>
+            <h1 className="text-3xl font-bold text-white ml-4">
+              <Link href="/">
                 {name}
               </Link>
-            </h2>
-          </>
+            </h1>
+          </div>
         )}
       </header>
-      <main>{children}</main>
-      {!home && (
-        <div className=''>
-          <Link href="/">← Back to home</Link>
-        </div>
-      )}
+      <main className='container mx-auto'>
+        {children}
+        {!home && (
+          <div className="container mt-4">
+            <Link href="/" className="text-blue-500">
+              ← Back to home
+            </Link>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
