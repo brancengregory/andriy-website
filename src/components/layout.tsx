@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import CartSummary from './CartSummary';
 
 const name = 'Pro Toppers';
 export const siteTitle = 'Pro Toppers';
@@ -21,37 +22,40 @@ export default function Layout({ children, home }: LayoutProps) {
         />
       </Head>
       <header className="bg-gradient-to-r from-blue-500 to-purple-500 p-4">
-        {home ? (
-          <div className="flex items-center justify-center">
-            <Image
-              priority
-              src="/images/profile.jpg"
-              className="rounded-full"
-              height={144}
-              width={144}
-              alt=""
-            />
-            <h1 className="text-3xl font-bold text-white ml-4">{name}</h1>
-          </div>
-        ) : (
-          <div className='flex items-center justify-center'>
-            <Link href="/">
+        <div className="flex items-center justify-between"> {/* Use justify-between here */}
+          {home ? (
+            <div className="flex items-center justify-center">
               <Image
                 priority
                 src="/images/profile.jpg"
                 className="rounded-full"
-                height={108}
-                width={108}
-                alt=""
+                height={144}
+                width={144}
+                alt={name}
               />
-            </Link>
-            <h1 className="text-3xl font-bold text-white ml-4">
+              <h1 className="text-3xl font-bold text-white ml-4">{name}</h1>
+            </div>
+          ) : (
+            <div className='flex items-center justify-center'>
               <Link href="/">
-                {name}
+                <Image
+                  priority
+                  src="/images/profile.jpg"
+                  className="rounded-full cursor-pointer"
+                  height={108}
+                  width={108}
+                  alt={name}
+                />
               </Link>
-            </h1>
-          </div>
-        )}
+              <h1 className="text-3xl font-bold text-white ml-4">
+                <Link href="/">
+                  {name}
+                </Link>
+              </h1>
+            </div>
+          )}
+          <CartSummary />
+        </div>
       </header>
       <main className='container mx-auto'>
         {children}

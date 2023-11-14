@@ -1,6 +1,7 @@
 ---
 title: Ornament 1
 price: 12.99
+image: /images/cake_topper.jpg
 ---
 
 This product is going to **absolutely blow your mind**. It's so good, you'll want to buy it twice.
