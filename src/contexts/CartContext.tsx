@@ -1,16 +1,6 @@
 // CartContext.ts
-import React, { createContext, useContext, useState, ReactNode, FunctionComponent } from 'react';
-import { Product } from '../types/product';
-
-// Define a type for the product items in the cart
-export type CartItem = {
-  id: string; // or number if your product IDs are numbers
-  title: string;
-  price: number;
-  quantity: number;
-  description: string;
-  image: string;
-};
+import React, { createContext, useContext, useMemo, useState, ReactNode, FunctionComponent } from 'react';
+import { CartItem, Product } from '@/types';
 
 // Define the shape of your context state
 type CartContextType = {
@@ -69,8 +59,12 @@ export const CartProvider: FunctionComponent<CartProviderProps> = ({ children })
     );
   };
 
+  const contextValue = useMemo(() => ({
+    cartItems, addToCart, removeFromCart, updateQuantity
+  }), [cartItems]);
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity }}>
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );

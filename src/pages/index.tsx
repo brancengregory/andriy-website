@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import { getSortedProductsData } from '@/lib/products';
 import { useCart } from '@/contexts/CartContext'; // Adjust the import path as necessary
 import { Product } from '@/types';
