@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
-import { Product } from '@/types';
+import { Product } from '../types/product';
 
 const productsDirectory = path.join(process.cwd(), 'products');
 
@@ -71,3 +71,41 @@ export async function getProductData(id: string): Promise<Product> {
     ...(matterResult.data as Omit<Product, 'id' | 'contentHtml'>),
   } as Product;
 }
+
+export async function getAllProductData(): Promise<Product[]> {
+  const productIds = getAllProductIds();
+
+  const filePaths = productIds.map((productId) => {
+    return path.join(productsDirectory, `${productId.params.id}.md`)
+  });
+
+  const fileContents = filePaths.map((filePath) => {
+    return fs.readFileSync(filePath, 'utf8')
+  });
+
+  // Use gray-matter to parse the post metadata section
+  const matterResults = fileContents.map((fileContent) => {
+    return matter(fileContent)
+  });
+
+  // Use remark to convert markdown into HTML string
+  const processedContents = matterResults.map(async (matterResult) => {
+    return await remark()
+      .use(html)
+      .process(matterResult.content);
+  });
+
+  const contentHtmls = processedContents.map((processedContent) => {
+    return processedContent.toString();
+  });
+
+  // Combine the data with the id
+  return productIds.map((productId, index) => {
+    return {
+      id: productId.params.id,
+      contentHtml: contentHtmls[index],
+      ...(matterResults[index].data as Omit<Product, 'id' | 'contentHtml'>),
+    } as Product;
+  });
+}
+

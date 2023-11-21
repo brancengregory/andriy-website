@@ -8,10 +8,9 @@ export const siteTitle = 'Pro Toppers';
 
 interface LayoutProps {
   children: React.ReactNode;
-  home?: boolean;
 }
 
-export default function Layout({ children, home }: LayoutProps) {
+export default function Layout({ children }: LayoutProps) {
   return (
     <div className="bg-white">
       <Head>
@@ -21,51 +20,28 @@ export default function Layout({ children, home }: LayoutProps) {
           content="Come buy the best quality cake toppers and ornaments at the best prices"
         />
       </Head>
-      <header className="bg-gradient-to-r from-blue-500 to-purple-500 p-4">
-        <div className="flex items-center justify-between"> {/* Use justify-between here */}
-          {home ? (
-            <div className="flex items-center justify-center">
+      <header className="bg-gradient-to-r from-blue-500 to-purple-500 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between">
+          <div className="flex items-center justify-center">
+            <Link href="/">
               <Image
                 priority
                 src="/images/profile.jpg"
-                className="rounded-full"
-                height={144}
-                width={144}
+                className="rounded-full opacity-75"
+                height={72}  // Reduced size for smaller screens
+                width={72}   // Reduced size for smaller screens
                 alt={name}
               />
-              <h1 className="text-3xl font-bold text-white ml-4">{name}</h1>
-            </div>
-          ) : (
-            <div className='flex items-center justify-center'>
-              <Link href="/">
-                <Image
-                  priority
-                  src="/images/profile.jpg"
-                  className="rounded-full cursor-pointer"
-                  height={108}
-                  width={108}
-                  alt={name}
-                />
-              </Link>
-              <h1 className="text-3xl font-bold text-white ml-4">
-                <Link href="/">
-                  {name}
-                </Link>
-              </h1>
-            </div>
-          )}
+            </Link>
+            <Link href="/">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mt-4 sm:mt-0 sm:ml-4">{name}</h1>
+            </Link>
+          </div>
           <CartSummary />
         </div>
       </header>
       <main className='container mx-auto'>
         {children}
-        {!home && (
-          <div className="container mt-4">
-            <Link href="/" className="text-blue-500">
-              ← Back to home
-            </Link>
-          </div>
-        )}
       </main>
     </div>
   );

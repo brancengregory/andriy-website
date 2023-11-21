@@ -34,7 +34,7 @@ export default function Home({ allProductsData }: HomeProps) {
   const { addToCart } = useCart(); // Use the addToCart function from the cart context
 
   return (
-    <Layout home={true}>
+    <Layout>
       <Head>
         <title>Pro Toppers</title>
         {/* Add additional meta tags here */}

@@ -29,7 +29,7 @@ interface ProductProps {
 
 export default function Product({ productData }: ProductProps) {
   return (
-    <Layout home={false}>
+    <Layout>
       <Head>
         <title>{productData.title}</title>
       </Head>
