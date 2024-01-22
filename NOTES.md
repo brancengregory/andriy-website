@@ -1,0 +1,11 @@
+- Bulk item editing
+	- Based on item type, color, price, multiselect, search
+	- Editing description, price
+		- By section
+	- Leave editing color selections
+- Selections
+	- Color ~6
+	- Material (lower priority)
+	- Shipping
+- Multiple photos in item detail
+	- Be able to upload a specific picture to many items
