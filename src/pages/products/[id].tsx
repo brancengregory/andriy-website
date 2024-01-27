@@ -1,8 +1,9 @@
 import Layout from '@/components/Layout';
 import Head from 'next/head';
-import { GetStaticPropsContext } from 'next';
+import GetStaticPropsContext from 'next';
 import { Product as ProductType } from '@/types';
 import Image from 'next/image';
+import { useState } from 'react';
 
 import { getAllProductIds, getProductData } from '../../lib/products';
 
@@ -28,6 +29,9 @@ interface ProductProps {
 }
 
 export default function Product({ productData }: ProductProps) {
+  const [selectedColor, setSelectedColor] = useState(productData.colorOptions ? productData.colorOptions[0] : '');
+  const [selectedMaterial, setSelectedMaterial] = useState(productData.materialOptions ? productData.materialOptions[0] : '');
+  
   return (
     <Layout>
       <Head>
@@ -47,6 +51,32 @@ export default function Product({ productData }: ProductProps) {
           <div className="flex-1">
             <h1 className="text-3xl font-bold mb-4">{productData.title}</h1>
             <p className="text-lg font-semibold text-blue-600">{`$${productData.price.toFixed(2)}`}</p>
+            {productData.colorOptions && productData.colorOptions.length > 0 && (
+              <div>
+                {productData.colorOptions.map((color) => (
+                  <button 
+                    key={color} 
+                    style={{ backgroundColor: color, height: '50px', width: '50px' }} 
+                    onClick={() => setSelectedColor(color)}
+                    className={selectedColor === color ? 'selected' : ''}
+                  />
+                ))}
+              </div>
+            )}
+            {productData.materialOptions && productData.materialOptions.length > 0 && (
+              <div>
+                {productData.materialOptions.map((material) => (
+                  <button 
+                    key={material} 
+                    style={{ height: '50px', width: '50px' }} 
+                    onClick={() => setSelectedMaterial(material)}
+                    className={selectedMaterial === material ? 'selected' : ''}
+                  >
+                    {material}
+                  </button>
+                ))}
+              </div>
+            )}
             <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Add to Cart
             </button>

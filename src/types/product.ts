@@ -5,6 +5,9 @@ export type Product = {
   description: string;
   image: string;
   contentHtml?: string;
+  colorOptions?: string[];
+  materialOptions?: string[];
+  priceOptions?: { color: string; material: string; price: number }[];
 }
 
 export type CartItem = Product & {
