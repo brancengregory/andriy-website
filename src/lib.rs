@@ -1,5 +1,9 @@
 pub mod app;
 pub mod error_template;
+
+pub mod cart;
+pub mod product;
+
 #[cfg(feature = "ssr")]
 pub mod fileserv;
 
