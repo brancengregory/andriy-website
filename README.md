@@ -1,13 +1,5 @@
-<picture>
-    <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">
-    <img src="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_RGB.svg" alt="Leptos Logo">
-</picture>
 
-# Leptos Axum Starter Template
 
-This is a template for use with the [Leptos](https://github.com/leptos-rs/leptos) web framework and the [cargo-leptos](https://github.com/akesson/cargo-leptos) tool using [Axum](https://github.com/tokio-rs/axum).
-
-## Creating your template repo
 
 If you don't have `cargo-leptos` installed you can install it with
 
@@ -15,22 +7,9 @@ If you don't have `cargo-leptos` installed you can install it with
 cargo install cargo-leptos --locked
 ```
 
-Then run
-```bash
-cargo leptos new --git leptos-rs/start-axum
-```
-
-to generate a new project template.
-
-```bash
-cd andriy-store
-```
-
-to go to your newly created project.  
 Feel free to explore the project structure, but the best place to start with your application code is in `src/app.rs`.  
-Addtionally, Cargo.toml may need updating as new versions of the dependencies are released, especially if things are not working after a `cargo update`.
 
-## Running your project
+## Running the project
 
 ```bash
 cargo leptos watch
@@ -45,10 +24,18 @@ By default, `cargo-leptos` uses `nightly` Rust, `cargo-generate`, and `sass`. If
 3. `cargo install cargo-generate` - install `cargo-generate` binary (should be installed automatically in future)
 4. `npm install -g sass` - install `dart-sass` (should be optional in future
 
+### Tailwind and DaisyUI
+
+```bash
+pnpm add tailwindcss
+pnpm add daisyui
+```
+
 ## Compiling for Release
 ```bash
 cargo leptos build --release
 ```
+
 
 Will generate your server binary in target/server/release and your site package in target/site
 
@@ -84,7 +71,3 @@ LEPTOS_SITE_ADDR="127.0.0.1:3000"
 LEPTOS_RELOAD_PORT="3001"
 ```
 Finally, run the server binary.
-
-## Licensing
-
-This template itself is released under the Unlicense. You should replace the LICENSE for your own application with an appropriate license if you plan to release it publicly.
