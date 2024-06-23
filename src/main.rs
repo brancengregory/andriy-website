@@ -1,38 +1,48 @@
-#[cfg(feature = "ssr")]
+use axum::{
+  routing::{get, put, get_service},
+  Router,
+};
+use std::net::SocketAddr;
+use tower_http::services::ServeDir;
+use tokio::net::TcpListener;
+use std::sync::{Arc, Mutex};
+
+mod product;
+mod routes;
+mod cart;
+
+use routes::{get_more_products, get_cart, add_to_cart, get_cart_total_items, get_home};
+use cart::Cart;
+
 #[tokio::main]
 async fn main() {
-    use axum::Router;
-    use leptos::*;
-    use leptos_axum::{generate_route_list, LeptosRoutes};
-    use andriy_store::app::*;
-    use andriy_store::fileserv::file_and_error_handler;
+  let cart = Arc::new(Mutex::new(Cart::new()));
 
-    // Setting get_configuration(None) means we'll be using cargo-leptos's env values
-    // For deployment these variables are:
-    // <https://github.com/leptos-rs/start-axum#executing-a-server-on-a-remote-machine-without-the-toolchain>
-    // Alternately a file can be specified such as Some("Cargo.toml")
-    // The file would need to be included with the executable when moved to deployment
-    let conf = get_configuration(None).await.unwrap();
-    let leptos_options = conf.leptos_options;
-    let addr = leptos_options.site_addr;
-    let routes = generate_route_list(App);
+  // Create the Axum router
+  let router = Router::new()
+      .route("/", get({
+        let cart = Arc::clone(&cart);
+        move || get_home(cart.clone())
+      }))
+      .route("/more-products/:start/:count", get(get_more_products))
+      .route("/cart", get({
+          let cart = Arc::clone(&cart);
+          move || get_cart(cart.clone())
+      }))
+      .route("/cart", put({
+          let cart = Arc::clone(&cart);
+          move |query| add_to_cart(cart.clone(), query)
+      }))
+      .route("/cart/total-items", get({
+          let cart = Arc::clone(&cart);
+          move || get_cart_total_items(cart.clone())
+      }))
+      .nest_service("/static", get_service(ServeDir::new("./static")));
 
-    // build our application with a route
-    let app = Router::new()
-        .leptos_routes(&leptos_options, routes, App)
-        .fallback(file_and_error_handler)
-        .with_state(leptos_options);
+  // Define the address for the server
+  let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+  println!("Listening on http://{}", addr);
 
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
-    logging::log!("listening on http://{}", &addr);
-    axum::serve(listener, app.into_make_service())
-        .await
-        .unwrap();
-}
-
-#[cfg(not(feature = "ssr"))]
-pub fn main() {
-    // no client-side main function
-    // unless we want this to work with e.g., Trunk for a purely client-side app
-    // see lib.rs for hydration function instead
+  let tcp = TcpListener::bind(&addr).await.unwrap();
+  axum::serve(tcp, router).await.unwrap();
 }
