@@ -1,74 +1,55 @@
-use std::fmt::{Display, Formatter, Result};
+use askama::Template;
+use axum::response::Html;
+use serde::Serialize;
 
-use leptos::*;
-use leptos_router::*;
-
-pub struct Price(f64);
-
-impl Price {
-  pub fn new(value: f64) -> Self {
-    Price(value)
-  }
+#[derive(Serialize, Template)]
+#[template(source = r##"
+<div class="card w-96 bg-base-100 shadow-xl m-4">
+  <figure><img src="{{ image_url }}" alt="{{ name }}"></figure>
+  <div class="card-body">
+    <h2 class="card-title">{{ name }}</h2>
+    <p>${{ price }}</p>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary add-to-cart-button" 
+        hx-put="/cart?product_id={{ id }}" 
+        hx-swap="innerHTML" 
+        hx-target="#cart-indicator"
+        _="on click 
+          send me to '/cart?product_id={{ id }}' with PUT
+          then swap #cart-indicator's innerHTML from '/cart/total-items'">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+"##, ext = "html")]
+pub struct Product {
+    pub id: usize,
+    pub name: String,
+    pub price: f64,
+    pub image_url: String,
 }
 
-impl Display for Price {
-  fn fmt(&self, f: &mut Formatter) -> Result {
-    write!(f, "{:.2}", self.0)
-  }
+pub async fn get_product_html(product: &Product) -> Html<String> {
+    Html(product.render().unwrap())
 }
 
-struct Product {
-    id: String,
-    name: String,
-    description: String,
-    image: String,
-    price: Price,
-}
-
-fn get_product_by_id(id: String) -> Option<Product> {
-  let products = vec![
+pub async fn get_product_by_id(id: usize) -> Product {
+    // Mock function to get a product by id; in a real application, this would query the database.
     Product {
-      id: "1".to_string(),
-      name: "".to_string(),
-      description: "".to_string(),
-      image: "public/assets/christmas-ornament.jpg".to_string(),
-      price: Price::new(49.99),
-    }
-  ];
-
-  products.into_iter().find(|p| p.id == id)
-}
-
-#[component]
-pub fn Products() -> impl IntoView {
-    view! {
-      "Product Page muh'fuckah"
+        id,
+        name: format!("Product {}", id),
+        price: 10.0 + (id as f64),
+        image_url: "https://via.placeholder.com/300".to_string(),
     }
 }
 
-#[component]
-pub fn ProductProfile(id: String) -> impl IntoView {
-  if let Some(product) = get_product_by_id(id) {
-    view! {
-      <div>
-        <img src={product.image.clone()} alt={product.name.clone()} />
-        <h2>{product.name.clone()}</h2>
-        <p>{product.description.clone()}</p>
-        <p>{format!("${:.2}", product.price)}</p>
-      </div>
-    }
-  } else {
-    view! {
-      <div class="product-not-found">
-        <p>"Product not found."</p>
-      </div>
-    }
-  }
-}
-
-#[component]
-pub fn NoProduct() -> impl IntoView {
-    view! {
-      "No products :'("
-    }
+pub async fn get_products(start: usize, count: usize) -> Vec<Product> {
+    // Mock function to get products; in a real application, this would query the database.
+    (start..start + count).map(|id| Product {
+        id,
+        name: format!("Product {}", id),
+        price: 10.0 + (id as f64),
+        image_url: "https://via.placeholder.com/300".to_string(),
+    }).collect()
 }

@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <h2>Shopping Cart</h2>
+  <ul>
+    {% for item in cart.items.values() %}
+      <li>Product ID: {{ item.product_id }}, Quantity: {{ item.quantity }}</li>
+    {% endfor %}
+  </ul>
+  <p>Total items: {{ cart.total_items() }}</p>
+</div>
+{% endblock %}
