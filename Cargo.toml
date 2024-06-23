@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 askama = "0.12.1"
 axum = "0.7.5"
+just = "1.29.1"
 serde = { version = "1.0.203", features = ["derive"] }
 tokio = { version = "1.38.0", features = ["full"] }
 tower = "0.4.13"
